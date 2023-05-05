@@ -68,6 +68,9 @@ COMP_FLAGS	+= -lm
 LIBFT_PATH	= libft/
 LIBFT		= $(LIBFT_PATH)/libft.a
 
+#### MACOS
+MACOS = miniRT_macos
+
 #### COLORS
 GREEN		= \033[1;92m
 YELLOW		= \033[1;93m
@@ -76,6 +79,12 @@ CYAN		= \033[1;96m
 
 #### RULES
 all: $(NAME)
+
+macos: $(MACOS)
+
+$(MACOS): $(OBJS) $(LIBFT) $(INCLUDES)
+	@$(CC) $(OBJS) $(CFLAGS) -L$ (LIBFT_PATH) -lft -Lmlx_macos -lmlx_macos -framework OpenGL -framework AppKit -o $(MACOS)
+	@printf "$(YELLOW)------Compilation executed------\n\n"
 
 $(NAME): $(OBJS) $(LIBFT) $(INCLUDES) Makefile
 	@$(CC) $(CFLAGS) $(OBJS) -o $@ -L $(LIBFT_PATH) $(COMP_FLAGS)
@@ -89,9 +98,15 @@ $(LIBFT):
 	@$(SMAKE) -sC $(LIBFT_PATH)
 	@printf "$(CYAN)--------libft.a created----------\n\n"
 
+# A commenter si on utilise macos
 $(OBJS): $(PATH_OBJS)/%.o: %.c $(INCLUDES)
 	@mkdir -p $(PATH_OBJS)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(OBJ_FLAGS)
+
+# A decommenter si on ulitise macos
+# $(OBJS): $(PATH_OBJS)/%.o: %.c $(INCLUDES)
+# 	@mkdir -p $(PATH_OBJS)
+# 	@$(CC) $(CFLAGS) -Imlx_macos -I./libft -I/opt/X11/include -c $< -o $@
 
 clean:
 	@$(RM) -R $(PATH_OBJS)
@@ -105,4 +120,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+ra: fclean macos
+
+.PHONY: all clean fclean re ra
