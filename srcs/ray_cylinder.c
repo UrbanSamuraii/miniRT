@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/10 17:44:59 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/10 18:35:45 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,38 +125,29 @@ static float	min_positive(float a, float b, float c, float d)
 
 bool	hit_cylinder(t_objects cylinder, t_ray r, t_vec2 limit, t_hit_rec *rec)
 {
-    t_vec3  va;
-    t_vec3  ra0;
-    t_vec3  ra1;
-    t_vec3  ra2;
-	t_vec3	deltap;
-	t_vec3 vvaa;
-	t_vec3	dva;
-    float   a;
-    float   b;
-    float   c;
-    float   root1;
-    float   root2;
-    float   root3;
-    float   root4;
+	t_vec3	ra1;
+	t_vec3	ra2;
+	t_vec3	ra0;
+	t_vec3	va;
+	float	a;
+	float	b;
+	float	c;
+	float	root1;
+	float	root2;
+	float	root3;
+	float	root4;
 
-	deltap = r.origin.xyz - cylinder.origin.xyz;
-	vvaa = r.direction.xyz - vec3_dot(r.direction, cylinder.dir) * cylinder.dir.xyz;
-	dva = deltap.xyz - vec3_dot(deltap, cylinder.dir) * cylinder.dir.xyz;
-    ra1 = cylinder.origin.xyz - (cylinder.height / 2) * cylinder.dir.xyz;
-    ra2 = cylinder.origin.xyz + (cylinder.height / 2) * cylinder.dir.xyz;
-    ra0 = vec3_cross(vec3_cross(cylinder.dir, r.origin.xyz - ra1.xyz), cylinder.dir);
-    va = vec3_cross(vec3_cross(cylinder.dir, r.direction), cylinder.dir);
-    a = vec3_dot(va, va);
-    b = vec3_dot(2 * ra0.xyz, va);
-    c = vec3_dot(ra0, ra0) -(cylinder.radius * cylinder.radius);
-    a = vec3_dot(vvaa, vvaa);
-    b = 2 * vec3_dot(vvaa, dva);
-    c = vec3_dot(dva, dva) -(cylinder.radius * cylinder.radius);
-    if (b * b - 4 * a * c < 0)
-        return (false);
-    root1 = (-b + sqrtf(b * b - 4 * a * c)) / (2 * a);
-    root2 = (-b - sqrtf(b * b - 4 * a * c)) / (2 * a);
+	ra1 = cylinder.origin.xyz - (cylinder.height / 2.0) * cylinder.dir.xyz;
+	ra2 = cylinder.origin.xyz + (cylinder.height / 2.0) * cylinder.dir.xyz;
+	ra0 = vec3_cross(vec3_cross(cylinder.dir, r.origin.xyz - cylinder.origin.xyz), cylinder.dir);
+	va = vec3_cross(vec3_cross(cylinder.dir, r.direction), cylinder.dir);
+	a = vec3_dot(va, va);
+	b = 2 * vec3_dot(ra0, va);
+	c = vec3_dot(ra0, ra0) -(cylinder.radius * cylinder.radius);
+	if (b * b - 4 * a * c < 0)
+		return (false);
+	root1 = (-b - sqrtf(b * b - 4 * a * c)) / (2 * a);
+	root2 = (-b + sqrtf(b * b - 4 * a * c)) / (2 * a);
     //top.xyz = cylinder.origin.xyz + cylinder.height * cylinder.dir.xyz;
     //bottom.xyz = cylinder.origin.xyz - cylinder.height * cylinder.dir.xyz;
 /*     if (root1 < limit.x || root1 > limit.y)
@@ -168,21 +159,23 @@ bool	hit_cylinder(t_objects cylinder, t_ray r, t_vec2 limit, t_hit_rec *rec)
 		root1 = -1;
 	if (root2 > limit.y)
 		root2 = -1;
-    if (root1 >= 0)
-    {
- 		if (vec3_dot(ray_at(r, root1).xyz - ra1.xyz, cylinder.dir) <= 0
+	if (root1 >= 0)
+	{
+		if (vec3_dot(ray_at(r, root1).xyz - ra1.xyz, cylinder.dir) <= 0
 			|| vec3_dot(ray_at(r, root1).xyz - ra2.xyz, cylinder.dir) >= 0) 
 				root1 = -1;
-    }
-   if (root2 >= 0)
-     {
+				//return (false);
+	}
+	if (root2 >= 0)
+	{
 		if (vec3_dot(ray_at(r, root2).xyz - ra1.xyz, cylinder.dir) <= 0
 			|| vec3_dot(ray_at(r, root2).xyz - ra2.xyz, cylinder.dir) >= 0)
 			root2 = -1;
-    }
+			//return (false);
+	}
 	root3 = hit_cylinder_cap(cylinder, r, limit, ra1);
 	root4 = hit_cylinder_cap(cylinder, r, limit, ra2);
-    if (root1 < 0 && root2 < 0 && root3 < 0 && root4 < 0)
+	if (root1 < 0 && root2 < 0 && root3 < 0 && root4 < 0)
 		return (false);
 	if (rec)
 	{
