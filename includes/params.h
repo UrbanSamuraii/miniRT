@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:54:19 by avast             #+#    #+#             */
-/*   Updated: 2023/05/03 17:58:21 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/10 10:57:49 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ typedef struct s_hit_record
 	t_vec3	p;
 	t_vec3	normal;
 	float	t;
-	bool	front_face;
 }	t_hit_rec;
 
 typedef struct s_elements {

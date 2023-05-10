@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:59:55 by avast             #+#    #+#             */
-/*   Updated: 2023/05/03 17:09:13 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/10 12:33:11 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ t_vec3	ray_at(t_ray ray, float t)
 
 void	set_face_normal(t_ray r, t_vec3 out_normal, t_hit_rec *rec)
 {
-	rec->front_face = (vec3_dot(r.direction, out_normal) < 0);
-	if (rec->front_face)
+	float	front_face;
+
+	front_face = (vec3_dot(r.direction, out_normal) < 0);
+	if (front_face)
 		rec->normal = out_normal;
 	else
 		rec->normal = out_normal.xyz * -1;

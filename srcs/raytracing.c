@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:13:35 by avast             #+#    #+#             */
-/*   Updated: 2023/05/04 16:50:42 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/10 10:40:53 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ t_vec3	update_color_shadow(t_hit_rec rec, t_elem elem)
 		shadow_ray = get_shadow_ray(rec, *light);
 		if (!hit_anything(shadow_ray, elem, NULL, rec.obj_id))
 		{
-			color.xyz = (t_vec3){1, 0, 0};
- 			//color.xyz += get_direct_light(rec, *light);
-			//color.xyz += get_spec_light(elem.camera, rec, *light);
+			//color.xyz = (t_vec3){1, 0, 0};
+ 			color.xyz += get_direct_light(rec, *light);
+			color.xyz += get_spec_light(elem.camera, rec, *light);
 		}
 		light = light->next;
 	}
