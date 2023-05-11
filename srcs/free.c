@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 17:05:25 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/03 15:29:49 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 16:56:22 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,6 @@ void	free_lights(t_light *lights)
 
 void	free_structures(t_elem *elems)
 {
-/* 	if (elems->ambient != NULL)
-		free(elems->ambient);
-	if (elems->camera != NULL)
-		free(elems->camera); */
 	if (elems->lights_head != NULL)
 		free_lights(elems->lights_head);
 	if (elems->objects_head != NULL)

@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 12:40:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/03 17:18:01 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 16:56:09 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,8 @@ void	initialize_data(t_data *data, t_elem elem)
 		- data->horizontal.xyz / 2 - data->vertical.xyz / 2;
 }
 
-
 int	initialize_mlx(t_elem *elem, t_data *data)
 {
-	// Initialization mlx items
 	ft_memset(data, 0, sizeof(*data));
 	data->mlx_ptr = mlx_init();
 	if (data->mlx_ptr == NULL)
@@ -45,11 +43,7 @@ int	initialize_mlx(t_elem *elem, t_data *data)
 	data->img.mlx_img = mlx_new_image(data->mlx_ptr, WIDTH, HEIGHT);
 	data->img.addr = mlx_get_data_addr(data->img.mlx_img, &data->img.bpp,
 			&data->img.line_len, &data->img.endian);
-
-	// Initialization data
 	initialize_data(data, *elem);
-
-	// Render & loop
 	mlx_loop_hook(data->mlx_ptr, &display, data);
 	mlx_hook(data->win_ptr, KeyPress, KeyPressMask, &handle_keypress, data);
 	mlx_hook(data->win_ptr, 17, ButtonPressMask, &close_window, data);

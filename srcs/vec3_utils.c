@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:48:17 by avast             #+#    #+#             */
-/*   Updated: 2023/05/03 16:27:52 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 14:41:59 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ float	vec3_dot(t_vec3 a, t_vec3 b)
 	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }
 
-/* float	vec3_distance(t_vec3 a, t_vec3 b)
+float	vec3_distance(t_vec3 a, t_vec3 b)
 {
-	return (sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2) + pow(b.z - a.z, 2)))
-} */
+	return (sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2) + pow(b.z - a.z, 2)));
+}
 
 t_vec3	vec3_normalize(t_vec3 a)
 {

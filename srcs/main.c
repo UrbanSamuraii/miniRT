@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:09 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/04 17:35:24 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:53:38 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,8 @@ void	parsing(t_elem *elem, int fd)
 		parse_line(elem, buff);
 		buff = get_next_line(fd);
 	}
-	// testinggggggggggggggggggggggggggggggggggggg
-	// t_objects *tmp = elements.objects_head;
-	// while (tmp->next != NULL)
-	// {
-	// 	printf("x of an object==[%f]\n", tmp->colors.x);
-	// 	printf("id of an object==[%d]\n", tmp->id);
-	// 	tmp = tmp->next;
-	// }
-	// printf("x of an object==[%f]\n", tmp->colors.x);
-	// printf("id of an object==[%d]\n", tmp->id);
-	// free_structures(&elements); // remove when mixing branches
 }
 
-// todo:	change output of errors to STDERR everywhere
-//			use perror when possible
-// to run: /minirt test.rt
 int	main(int ac, char *av[])
 {
 	int		fd;
@@ -102,7 +88,6 @@ int	main(int ac, char *av[])
 		close(fd);
 		if (initialize_mlx(&elem, &data) == MLX_ERROR)
 			return (free_structures(&elem), 1);
-		//free_structures(&elem);
 	}
 	else
 		printf(BWHITE"Second argument required."RESET"\n");

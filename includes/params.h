@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:54:19 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 13:07:11 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 16:50:16 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@
 # define SPHERE		1
 # define PLANE		2
 # define CYLINDER	3
+
+# define MIN_SHADOW	0.000001
 
 # define BOTTOM		1
 # define TOP		2

@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:13:35 by avast             #+#    #+#             */
-/*   Updated: 2023/05/10 10:40:53 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 16:56:42 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +40,28 @@ static void	save_rec(float *closest, t_hit_rec tmp, t_hit_rec *rec, bool *hit)
 	}
 }
 
-// Voir si on fait closest ici ?
-bool	hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, int obj_excluded)
+bool	hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, t_vec3 limit)
 {
 	float		closest;
 	bool		hit_anything;
 	t_hit_rec	tmp_rec;
 	t_objects	*obj;
 
-	closest = INFINITY;
+	closest = limit.y;
 	hit_anything = false;
 	obj = elem.objects_head;
 	while (obj)
 	{
-		if (obj->id != obj_excluded && obj->type == SPHERE
-			&& hit_sphere(*obj, r, (t_vec2){0, closest}, &tmp_rec))
+		if (obj->id != (int)limit.z && obj->type == SPHERE
+			&& hit_sphere(*obj, r, (t_vec2){limit.x, closest}, &tmp_rec))
 			save_rec(&closest, tmp_rec, rec, &hit_anything);
-		if (obj->id != obj_excluded && obj->type == PLANE
-			&& hit_plane(*obj, r, (t_vec2){0, closest}, &tmp_rec))
+		if (obj->id != (int)limit.z && obj->type == PLANE
+			&& hit_plane(*obj, r, (t_vec2){limit.x, closest}, &tmp_rec))
 			save_rec(&closest, tmp_rec, rec, &hit_anything);
-		if (obj->id != obj_excluded && obj->type == CYLINDER
-			&& hit_cylinder(*obj, r, (t_vec2){0, closest}, &tmp_rec))
+		if (obj->id != (int)limit.z && obj->type == CYLINDER
+			&& hit_cylinder(*obj, r, (t_vec2){limit.x, closest}, &tmp_rec))
 			save_rec(&closest, tmp_rec, rec, &hit_anything);
-		// dans la cas ou on cherche une ombre, on peut sortir
-		if (obj_excluded >= 0 && hit_anything)
+		if (limit.z >= 0 && hit_anything)
 			break ;
 		obj = obj->next;
 	}
@@ -81,10 +79,10 @@ t_vec3	update_color_shadow(t_hit_rec rec, t_elem elem)
 	while (light)
 	{
 		shadow_ray = get_shadow_ray(rec, *light);
-		if (!hit_anything(shadow_ray, elem, NULL, rec.obj_id))
+		if (!hit_anything(shadow_ray, elem, NULL, (t_vec3){MIN_SHADOW,
+				vec3_distance(rec.p, light->origin), (float)rec.obj_id}))
 		{
-			//color.xyz = (t_vec3){1, 0, 0};
- 			color.xyz += get_direct_light(rec, *light);
+			color.xyz += get_direct_light(rec, *light);
 			color.xyz += get_spec_light(elem.camera, rec, *light);
 		}
 		light = light->next;
@@ -99,10 +97,9 @@ int	define_color(t_data *data, t_ray r)
 	t_hit_rec	rec;
 
 	color = (t_vec3){0, 0, 0};
-	if (hit_anything(r, data->elements, &rec, ALL_OBJ))
+	if (hit_anything(r, data->elements, &rec, (t_vec3){0, INFINITY, ALL_OBJ}))
 		color = update_color_shadow(rec, data->elements);
 	else
 		color.xyz = get_ambient_light(color, data->elements.ambient).xyz / 3;
 	return (get_color(color));
 }
-

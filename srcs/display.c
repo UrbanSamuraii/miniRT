@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:53:19 by avast             #+#    #+#             */
-/*   Updated: 2023/05/03 16:26:39 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 16:54:55 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(int *)pixel = color;
 }
-
 
 void	display_ray(t_data *data)
 {

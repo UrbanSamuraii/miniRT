@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 18:00:40 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 14:27:25 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 16:51:58 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ bool	not_valid_parameter(char *to_check, float min, float max);
 bool	not_valid_number_of_commas(char *to_check);
 bool	not_valid_range(char *to_check, float min, float max);
 
+
 /* MLX INIT */
 void	initialize_data(t_data *data, t_elem elem);
 int		initialize_mlx(t_elem *elem, t_data *data);
@@ -74,7 +75,7 @@ int		handle_keypress(int keysym, t_data *data);
 
 /* RAYTRACING */
 int		define_color(t_data *data, t_ray r);
-bool	hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, int exclu);
+bool		hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, t_vec3 limit);
 t_vec3	update_color_shadow(t_hit_rec rec, t_elem elem);
 
 /* RAY_LIGTHS */
@@ -91,7 +92,7 @@ bool	hit_plane(t_objects plane, t_ray r, t_vec2 limit, t_hit_rec *rec);
 /* RAY_CYLINDER */
 bool	hit_cylinder(t_objects cylinder, t_ray r, t_vec2 limit, t_hit_rec *rec);
 
-/* MATH */
+/* MATHS UTILS */
 float	cal_cos(int a);
 float	cal_sin(int a);
 float	deg_to_rad(float a);
@@ -100,6 +101,7 @@ int		ft_sign(int a);
 
 /* VEC3 UTILS*/
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b);
+float	vec3_distance(t_vec3 a, t_vec3 b);
 float	vec3_dot(t_vec3 a, t_vec3 b);
 t_vec3	vec3_normalize(t_vec3 a);
 

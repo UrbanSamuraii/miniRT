@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 14:26:28 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 16:56:28 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,4 +120,3 @@ bool	hit_cylinder(t_objects cyl, t_ray r, t_vec2 limit, t_hit_rec *rec)
 	set_cyl_rec(r, roots, cyl, rec);
 	return (true);
 }
-

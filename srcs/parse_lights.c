@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 15:02:17 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/03 17:06:44 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 16:55:36 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,6 @@ static void	new_node_light(t_elem *elems, char **params)
 		perror("Malloc");
 	new_node->ratio = ft_atof(params[2]);
 	tab = ft_split(params[3], ',');
-	//new_node->colors = colors_to_percent(tab);
-	// new_node->colors.x = ft_atof(tab[0]);
-	// new_node->colors.y = ft_atof(tab[1]);
-	// new_node->colors.z = ft_atof(tab[2]);
 	new_node->colors = (t_vec3){ft_atof(tab[0]),
 		ft_atof(tab[1]), ft_atof(tab[2])};
 	new_node->colors.xyz /= 255;
