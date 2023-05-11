@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:13:35 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 16:56:42 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 18:50:48 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ bool	hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, t_vec3 limit)
 		if (obj->id != (int)limit.z && obj->type == CYLINDER
 			&& hit_cylinder(*obj, r, (t_vec2){limit.x, closest}, &tmp_rec))
 			save_rec(&closest, tmp_rec, rec, &hit_anything);
+		// ajouter la ligne cylindre
 		if (limit.z >= 0 && hit_anything)
 			break ;
 		obj = obj->next;

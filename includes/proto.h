@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 18:00:40 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 16:51:58 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 18:20:21 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		handle_keypress(int keysym, t_data *data);
 
 /* RAYTRACING */
 int		define_color(t_data *data, t_ray r);
-bool		hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, t_vec3 limit);
+bool	hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, t_vec3 limit);
 t_vec3	update_color_shadow(t_hit_rec rec, t_elem elem);
 
 /* RAY_LIGTHS */
@@ -91,6 +91,9 @@ bool	hit_plane(t_objects plane, t_ray r, t_vec2 limit, t_hit_rec *rec);
 
 /* RAY_CYLINDER */
 bool	hit_cylinder(t_objects cylinder, t_ray r, t_vec2 limit, t_hit_rec *rec);
+
+/* RAY_CONE */
+bool	hit_cone(t_objects cone, t_ray r, t_vec2 limit, t_hit_rec *rec);
 
 /* MATHS UTILS */
 float	cal_cos(int a);

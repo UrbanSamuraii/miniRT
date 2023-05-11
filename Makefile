@@ -20,6 +20,7 @@ SRCS		+= parse_objects.c
 SRCS		+= parse_planes.c
 SRCS		+= parse_spheres.c
 SRCS		+= parse_utils.c
+SRCS		+= ray_cone.c
 SRCS		+= ray_cylinder.c
 SRCS		+= ray_lights.c
 SRCS		+= ray_plane.c
