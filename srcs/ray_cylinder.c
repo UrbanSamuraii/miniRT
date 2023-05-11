@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 12:30:33 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 14:26:28 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,126 +14,56 @@
 #include "../includes/proto.h"
 #include "../libft/includes/libft.h"
 
-/* bool	hit_cylinder(t_objects cylinder, t_ray r, t_vec2 limit, t_hit_rec *rec)
+static void	solve_cy_equa(t_objects cy, t_ray r, float *root1, float *root2)
 {
-    (void)limit;
-    // Calculate the vector from the ray origin to the center of the cylinder
-    t_vec3 ray_to_cylinder = cylinder.origin.xyz - r.origin.xyz;
+	t_vec3	ra0;
+	t_vec3	va;
+	t_equa	equa;
 
-    // Project the vector onto the cylinder orientation
-	float projection = vec3_dot(ray_to_cylinder, cylinder.dir);
-	t_vec3 oc_parallel = projection * cylinder.dir.xyz;
-
-    // Calculate the vector from the cylinder center to the closest point on the ray to the cylinder axis
-    const t_vec3 q = ray_to_cylinder.xyz - oc_parallel.xyz;
-
-     // Calculate the squared distance from the ray to the cylinder axis
-    float dist2 = vec3_dot(q, q);
-
-    // Calculate the squared radius of the cylinder
-    float radius2 = cylinder.radius * cylinder.radius;
-
-    if (dist2 <= radius2)
-    {
-        float t1 = projection - sqrtf(radius2 - dist2);
-        float t2 = projection + sqrtf(radius2 - dist2);
-        if (t1 > - cylinder.height / 2 && t1 < cylinder.height / 2 && rec)
-        {
-            rec->t = t1;
-            rec->p = ray_at(r, t1);
-            rec->normal = (t_vec3){q.x, 0, q.z};
-            set_face_normal(r, rec->normal, rec);
-            return (true);
-        }
-        else if (t2 > - cylinder.height / 2 && t2 < cylinder.height /2 && rec)
-        {
-            rec->t = t2;
-            rec->p = ray_at(r, t2);
-            rec->normal = (t_vec3){q.x, 0, q.z};
-            set_face_normal(r, rec->normal, rec);
-            return (true);
-        }
-    }
-    return (false);
-}
- */
-
-float	hit_cylinder_cap1(t_objects cylinder, t_ray r, t_vec2 limit, t_vec3 point)
-{
-	t_vec3	normal;
-	t_vec3	ray_orient;
-	float	root;
-
-	normal = cylinder.dir;
-	//normal = vec3_normalize((t_vec3){cylinder.dir.y, -cylinder.dir.x, 0});
-	ray_orient = point.xyz - r.origin.xyz;
-	if (vec3_dot(normal, r.direction) == 0)
-		return (-1);
-	root = vec3_dot(ray_orient, normal) / vec3_dot(normal, r.direction);
-	if (root == 0 || root < limit.x || limit.y < root)
-		return (-1);
-	if (vec3_dot(ray_at(r, root).xyz - point.xyz, ray_at(r, root).xyz - point.xyz) <= cylinder.radius * cylinder.radius)
-		return (root);
-	else
-		return (-1);
-	
-/* 	if (rec)
+	ra0 = vec3_cross(vec3_cross(cy.dir, r.origin.xyz - cy.origin.xyz), cy.dir);
+	va = vec3_cross(vec3_cross(cy.dir, r.direction), cy.dir);
+	equa.a = vec3_dot(va, va);
+	equa.b = 2 * vec3_dot(ra0, va);
+	equa.c = vec3_dot(ra0, ra0) -(cy.radius * cy.radius);
+	equa.delta = equa.b * equa.b - 4 * equa.a * equa.c;
+	if (equa.delta < 0)
 	{
-		rec->obj_id = cylinder.id;
-		rec->obj_color = cylinder.colors;
-		rec->t = root;
-		rec->p = ray_at(r, root);
-		set_face_normal(r, normal, rec);
-	} */
+		*root1 = -1;
+		*root2 = -1;
+		return ;
+	}
+	*root1 = (-equa.b - sqrtf(equa.delta)) / (2 * equa.a);
+	*root2 = (-equa.b + sqrtf(equa.delta)) / (2 * equa.a);
 }
-float	hit_cylinder_cap2(t_objects cylinder, t_ray r, t_vec2 limit, t_vec3 point)
+
+static float	hit_cylinder_cap(t_objects cy, t_ray r, t_vec2 limit, int side)
 {
+	t_vec3	p;
 	t_vec3	normal;
-	t_vec3	ray_orient;
 	float	root;
 
-	normal = -cylinder.dir;
-	//normal = vec3_normalize((t_vec3){cylinder.dir.y, -cylinder.dir.x, 0});
-	ray_orient = point.xyz - r.origin.xyz;
-	if (vec3_dot(normal, r.direction) == 0)
-		return (-1);
-	root = vec3_dot(ray_orient, normal) / vec3_dot(normal, r.direction);
-	if (root == 0 || root < limit.x || limit.y < root)
-		return (-1);
-	if (vec3_dot(ray_at(r, root).xyz - point.xyz, ray_at(r, root).xyz - point.xyz) <= cylinder.radius * cylinder.radius)
-		return (root);
-	else
-		return (-1);
-	
-/* 	if (rec)
+	if (side == BOTTOM)
 	{
-		rec->obj_id = cylinder.id;
-		rec->obj_color = cylinder.colors;
-		rec->t = root;
-		rec->p = ray_at(r, root);
-		set_face_normal(r, normal, rec);
-	} */
-}
-/* float	hit_cylinder_cap2(t_objects cylinder, t_ray r, t_vec2 limit, t_vec3 point)
-{
-	t_vec3	normal;
-	t_vec3	ray_orient;
-	float	root;
-
-	//normal = cylinder.dir;
-	normal = vec3_normalize((t_vec3){cylinder.dir.y,
-			-cylinder.dir.x, 0});
-	ray_orient = vec3_normalize(point.xyz - r.origin.xyz);
+		p = cy.origin.xyz - (cy.height / 2.0) * cy.dir.xyz;
+		normal = cy.dir;
+	}
+	else
+	{
+		p = cy.origin.xyz + (cy.height / 2.0) * cy.dir.xyz;
+		normal = -cy.dir;
+	}
 	if (vec3_dot(normal, r.direction) == 0)
 		return (-1);
-	root = vec3_dot(ray_orient, normal) / vec3_dot(normal, r.direction);
+	root = vec3_dot(p.xyz - r.origin.xyz, normal)
+		/ vec3_dot(normal, r.direction);
 	if (root == 0 || root < limit.x || limit.y < root)
 		return (-1);
-	if (vec3_dot(ray_at(r, root).xyz - point.xyz, ray_at(r, root).xyz - point.xyz) < cylinder.radius * cylinder.radius)
+	if (vec3_dot(ray_at(r, root).xyz - p.xyz, ray_at(r, root).xyz - p.xyz)
+		<= cy.radius * cy.radius)
 		return (root);
 	else
 		return (-1);
-} */
+}
 
 static float	min_positive(float a, float b, float c, float d)
 {
@@ -151,124 +81,43 @@ static float	min_positive(float a, float b, float c, float d)
 	return (min_pos);
 }
 
-/* bool	hit_cylinder(t_objects cylinder, t_ray r, t_vec2 limit, t_hit_rec *rec)
+static void	set_cyl_rec(t_ray r, float roots[4], t_objects cyl, t_hit_rec *rec)
 {
-	t_vec3	ra1;
-	t_vec3	ra2;
-	t_vec3	ra0;
-	t_vec3	va;
-	float	a;
-	float	b;
-	float	c;
-	float	root1;
-	float	root2;
-	float	root3;
-	float	root4;
-
-	ra1 = cylinder.origin.xyz - (cylinder.height / 2.0) * cylinder.dir.xyz;
-	ra2 = cylinder.origin.xyz + (cylinder.height / 2.0) * cylinder.dir.xyz;
-	ra0 = vec3_cross(vec3_cross(cylinder.dir, r.origin.xyz - cylinder.origin.xyz), cylinder.dir);
-	va = vec3_cross(vec3_cross(cylinder.dir, r.direction), cylinder.dir);
-	a = vec3_dot(va, va);
-	b = 2 * vec3_dot(ra0, va);
-	c = vec3_dot(ra0, ra0) -(cylinder.radius * cylinder.radius);
-	if (b * b - 4 * a * c < 0)
-		return (false);
-	root1 = (-b - sqrtf(b * b - 4 * a * c)) / (2 * a);
-	root2 = (-b + sqrtf(b * b - 4 * a * c)) / (2 * a);
-    //top.xyz = cylinder.origin.xyz + cylinder.height * cylinder.dir.xyz;
-    //bottom.xyz = cylinder.origin.xyz - cylinder.height * cylinder.dir.xyz;
-	if (root1 > limit.y)
-		root1 = -1;
-	if (root2 > limit.y)
-		root2 = -1;
-	if (root1 >= 0)
-	{
-		if (vec3_dot(ray_at(r, root1).xyz - ra1.xyz, cylinder.dir) <= 0
-			|| vec3_dot(ray_at(r, root1).xyz - ra2.xyz, cylinder.dir) >= 0) 
-				root1 = -1;
-	}
-	if (root2 >= 0)
-	{
-		if (vec3_dot(ray_at(r, root2).xyz - ra1.xyz, cylinder.dir) <= 0
-			|| vec3_dot(ray_at(r, root2).xyz - ra2.xyz, cylinder.dir) >= 0)
-			root2 = -1;
-			//return (false);
-	}
-	root3 = hit_cylinder_cap1(cylinder, r, limit, ra1);
-	root4 = hit_cylinder_cap2(cylinder, r, limit, ra2);
-	if (root1 < 0 && root2 < 0 && root3 < 0 && root4 < 0)
-		return (false);
 	if (rec)
 	{
-		rec->obj_id = cylinder.id;
-		rec->obj_color = cylinder.colors;
-		rec->t = min_positive(root1, root2, root3, root4);
+		rec->obj_id = cyl.id;
+		rec->obj_color = cyl.colors;
+		rec->t = min_positive(roots[0], roots[1], roots[2], roots[3]);
 		rec->p = ray_at(r, rec->t);
-		if (rec->t == root1 || rec->t == root2)
-			rec->normal = vec3_normalize((t_vec3){rec->p.x - cylinder.origin.x, rec->p.y - cylinder.origin.y, rec->p.z - cylinder.origin.z});
+		if (rec->t == roots[0] || rec->t == roots[1])
+			rec->normal = vec3_normalize((t_vec3){rec->p.x - cyl.origin.x,
+					rec->p.y - cyl.origin.y, rec->p.z - cyl.origin.z});
 		else
-			rec->normal = cylinder.dir;
-		//t_vec3 plane_normal = vec3_normalize((t_vec3){cylinder.dir.y, -cylinder.dir.x, 0});
-		//rec->normal = vec3_normalize(rec->normal.xyz - vec3_dot(rec->normal, plane_normal) * plane_normal.xyz);
-		//set_face_normal(r, rec->normal, rec);
+			set_face_normal(r, cyl.dir, rec);
 	}
-	return (true);
-} */
+}
 
-
-bool	hit_cylinder(t_objects cylinder, t_ray r, t_vec2 limit, t_hit_rec *rec)
+bool	hit_cylinder(t_objects cyl, t_ray r, t_vec2 limit, t_hit_rec *rec)
 {
-	t_vec3	ra1;
-	t_vec3	ra2;
-	t_vec3	ra0;
-	t_vec3	va;
-	float	a;
-	float	b;
-	float	c;
-	float	root1;
-	float	root2;
-	float	root3;
-	float	root4;
+	float	roots[4];
+	float	dot[2];
 
-	ra1 = cylinder.origin.xyz - (cylinder.height / 2.0) * cylinder.dir.xyz;
-	ra2 = cylinder.origin.xyz + (cylinder.height / 2.0) * cylinder.dir.xyz;
-	ra0 = vec3_cross(vec3_cross(cylinder.dir, r.origin.xyz - cylinder.origin.xyz), cylinder.dir);
-	va = vec3_cross(vec3_cross(cylinder.dir, r.direction), cylinder.dir);
-	a = vec3_dot(va, va);
-	b = 2 * vec3_dot(ra0, va);
-	c = vec3_dot(ra0, ra0) -(cylinder.radius * cylinder.radius);
-	if (b * b - 4 * a * c < 0)
+	solve_cy_equa(cyl, r, &roots[0], &roots[1]);
+	if (roots[0] < limit.x || roots[0] > limit.y)
+		roots[0] = -1;
+	if (roots[1] < limit.x || roots[1] > limit.y)
+		roots[1] = -1;
+	dot[0] = vec3_dot(ray_at(r, roots[0]).xyz - cyl.origin.xyz, cyl.dir);
+	dot[1] = vec3_dot(ray_at(r, roots[1]).xyz - cyl.origin.xyz, cyl.dir);
+	if (dot[0] < -cyl.height / 2 || dot[0] > cyl.height / 2)
+		roots[0] = -1;
+	if (dot[1] < -cyl.height / 2 || dot[1] > cyl.height / 2)
+		roots[1] = -1;
+	roots[2] = hit_cylinder_cap(cyl, r, limit, BOTTOM);
+	roots[3] = hit_cylinder_cap(cyl, r, limit, TOP);
+	if (roots[0] < 0 && roots[1] < 0 && roots[2] < 0 && roots[3] < 0)
 		return (false);
-	root1 = (-b - sqrtf(b * b - 4 * a * c)) / (2 * a);
-	root2 = (-b + sqrtf(b * b - 4 * a * c)) / (2 * a);
-	if (root1 > limit.y)
-		root1 = -1;
-	if (root2 > limit.y)
-		root2 = -1;
-	float	q1 = vec3_dot(ray_at(r, root1).xyz - cylinder.origin.xyz, cylinder.dir);
-	float	q2 = vec3_dot(ray_at(r, root2).xyz - cylinder.origin.xyz, cylinder.dir);
-	if (q1 < - cylinder.height / 2 || q1 > cylinder.height / 2)
-		root1 = -1;
-	if (q2 < - cylinder.height / 2 || q2 > cylinder.height / 2)
-		root2 = -1;
-/* 	root3 = hit_cylinder_cap1(cylinder, r, limit, ra1);
-	root4 = hit_cylinder_cap1(cylinder, r, limit, ra2); */
-	root3 = hit_cylinder_cap1(cylinder, r, limit, ra1);
-	root4 = hit_cylinder_cap1(cylinder, r, limit, ra2);
-	if (root1 < 0 && root2 < 0 && root3 < 0 && root4 < 0)
-		return (false);
-	if (rec)
-	{
-		rec->obj_id = cylinder.id;
-		rec->obj_color = cylinder.colors;
-		rec->t = min_positive(root1, root2, root3, root4);
-		rec->p = ray_at(r, rec->t);
-		if (rec->t == root1 || rec->t == root2)
-			rec->normal = vec3_normalize((t_vec3){rec->p.x - cylinder.origin.x, rec->p.y - cylinder.origin.y, rec->p.z - cylinder.origin.z});
-		else
-			set_face_normal(r, cylinder.dir, rec);
-	}
+	set_cyl_rec(r, roots, cyl, rec);
 	return (true);
 }
 

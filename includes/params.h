@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:54:19 by avast             #+#    #+#             */
-/*   Updated: 2023/05/10 10:57:49 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 13:07:11 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@
 # define PLANE		2
 # define CYLINDER	3
 
+# define BOTTOM		1
+# define TOP		2
+
 typedef float	t_vec3	__attribute__((ext_vector_type(3)));
 typedef float	t_vec2	__attribute__((ext_vector_type(2)));
 
@@ -86,6 +89,14 @@ typedef struct s_ray
 	t_vec3	origin;
 	t_vec3	direction;
 }	t_ray;
+
+typedef struct s_equation
+{
+	float	a;
+	float	b;
+	float	c;
+	float	delta;
+}			t_equa;
 
 typedef struct s_ambient {
 	float	ratio;

@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 18:00:40 by avast             #+#    #+#             */
-/*   Updated: 2023/05/04 13:01:04 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 14:27:25 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ t_vec3	get_spec_light(t_camera cam, t_hit_rec rec, t_light light);
 
 /* RAY_SPHERE */
 bool	hit_sphere(t_objects sphere, t_ray r, t_vec2 limit, t_hit_rec *rec);
-void	set_sphere_hit_rec(t_ray r, float t, t_objects sphere, t_hit_rec *rec);
-bool	hit_sphere_shadow(t_ray r, t_hit_rec rec);
 
 /* RAY_PLANE */
 bool	hit_plane(t_objects plane, t_ray r, t_vec2 limit, t_hit_rec *rec);
