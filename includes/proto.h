@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   proto.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 18:00:40 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 18:20:21 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:07:04 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 /* PARSING */
 
 //error ------------------------------------------- //
-void	error(char **to_free, t_elem *elems, int code);
+void	error(char **to_free, t_elem *elems);
 
 //free -------------------------------------------- //
 void	free_tab(char **tab);

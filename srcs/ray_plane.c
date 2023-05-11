@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ray_plane.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 12:34:06 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 15:16:13 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:04:01 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/params.h"
-#include "../includes/proto.h"
-#include "../libft/includes/libft.h"
+#include "params.h"
+#include "proto.h"
+
 
 bool	hit_plane(t_objects plane, t_ray r, t_vec2 limit, t_hit_rec *rec)
 {

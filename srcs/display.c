@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:53:19 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 16:54:55 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:04:04 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/params.h"
-#include "../includes/proto.h"
-#include "../libft/includes/libft.h"
+#include "params.h"
+#include "proto.h"
 
 void	img_pix_put(t_img *img, int x, int y, int color)
 {

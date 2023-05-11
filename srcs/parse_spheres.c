@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_spheres.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 12:49:15 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/03 15:29:49 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:04:01 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/params.h"
-#include "../includes/proto.h"
-#include "../libft/includes/libft.h"
+#include "params.h"
+#include "proto.h"
+
 
 // dir && height are set to default values
 void	init_sphere(t_objects *object, char **params)

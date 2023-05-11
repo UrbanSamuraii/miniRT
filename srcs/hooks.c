@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 17:30:54 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 16:53:11 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:04:39 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/params.h"
-#include "../includes/proto.h"
-#include "../libft/includes/libft.h"
+#include "params.h"
+#include "proto.h"
 
 int	close_window(t_data *data)
 {

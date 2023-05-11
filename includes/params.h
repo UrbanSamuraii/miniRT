@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   params.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:54:19 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 16:50:16 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:07:43 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARAMS_H
 # define PARAMS_H
 
-# include "../libft/includes/libft.h"
+# include "libft.h"
 # include "colors.h"
 # include <stdlib.h>
 # include <stdio.h>
@@ -68,6 +68,7 @@
 # define SPHERE		1
 # define PLANE		2
 # define CYLINDER	3
+# define CONUS		4
 
 # define MIN_SHADOW	0.000001
 
@@ -143,8 +144,8 @@ typedef struct s_elements {
 	t_camera	camera;
 	t_light		*lights_head;
 	t_objects	*objects_head;
-	int			flag_camera;
-	int			flag_ambient;
+	int			camera_initialized;
+	int			ambient_initialized;
 }				t_elem;
 
 typedef struct s_data

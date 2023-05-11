@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   vec3_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/19 12:48:17 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 14:41:59 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:04:01 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/params.h"
-#include "../includes/proto.h" 
-#include "../libft/includes/libft.h"
+#include "params.h"
+#include "proto.h" 
+
 
 float	vec3_dot(t_vec3 a, t_vec3 b)
 {

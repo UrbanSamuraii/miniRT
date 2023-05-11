@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_ac.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:09:26 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 16:55:09 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:06:22 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/params.h"
-#include "../includes/proto.h"
-#include "../libft/includes/libft.h"
+#include "params.h"
+#include "proto.h"
+
 
 // in this function i initialize ambient structure if it was not initialized
 // if it was already initialized, i print an error (change to stderr) and exit
@@ -20,12 +20,13 @@ bool	reinit_ambient(t_elem *elems, char **params)
 {
 	char	**colors;
 
-	if (elems->flag_ambient == 0)
+	if (elems->ambient_initialized == false)
 	{
 		elems->ambient.ratio = ft_atof(params[1]);
 		colors = ft_split(params[2], ',');
 		elems->ambient.colors = colors_to_percent(colors);
 		free_tab(colors);
+		elems->ambient_initialized = true;
 		return (EXIT_SUCCESS);
 	}
 	ft_dprintf(2, FRED"Error\n"ERRDEF"\n");
@@ -38,7 +39,7 @@ bool	reinit_camera(t_elem *elems, char **params)
 {
 	char	**tab;
 
-	if (elems->flag_camera == 0)
+	if (elems->camera_initialized == false)
 	{
 		tab = ft_split(params[1], ',');
 		elems->camera.origin = (t_vec3){ft_atof(tab[0]),
@@ -49,6 +50,7 @@ bool	reinit_camera(t_elem *elems, char **params)
 				ft_atof(tab[1]), ft_atof(tab[2])});
 		free_tab(tab);
 		elems->camera.fov = ft_atof(params[3]);
+		elems->camera_initialized = true;
 		return (EXIT_SUCCESS);
 	}
 	ft_dprintf(2, FRED"Error\n"ERRDEF"\n");

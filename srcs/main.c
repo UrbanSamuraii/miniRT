@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:09 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 16:53:38 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 19:09:13 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/params.h"
-#include "../includes/proto.h"
-#include "../libft/includes/libft.h"
+#include "params.h"
+#include "proto.h"
 
 int	which_type_identifier(char *str)
 {
@@ -28,8 +27,10 @@ int	which_type_identifier(char *str)
 		return (4);
 	else if (ft_strncmp(str, "cy", 3) == 0)
 		return (5);
-	else if (str == NULL)
+	else if (ft_strncmp(str, "co", 3) == 0)
 		return (6);
+	else if (str == NULL)
+		return (7);
 	return (-1);
 }
 
@@ -46,18 +47,26 @@ void	parse_line(t_elem *elements, char *line)
 	free(tmp);
 	id = which_type_identifier(words[0]);
 	if (id == -1)
-		error(words, elements, ERRITI);
+	{
+		ft_dprintf(2, FRED"Error\nInvalid type identifier."RESET"\n");
+		error(words, elements);
+	}
 	if (id != 6 && funcs[id](elements, words) == EXIT_FAILURE)
-		error(words, elements, ERRIPN);
+		error(words, elements);
 	free_tab(words);
 }
 
 void	elements_init(t_elem *elements)
 {
+	elements->ambient_initialized = false;
+	elements->ambient.colors = (t_vec3){0, 0, 0};
+	elements->ambient.ratio = 0;
+	elements->camera_initialized = false;
+	elements->camera.origin = (t_vec3){0, 0, 0};
+	elements->camera.dir = (t_vec3){0, 0, 0};
+	elements->camera.fov = 0;
 	elements->lights_head = NULL;
 	elements->objects_head = NULL;
-	elements->flag_camera = 0;
-	elements->flag_ambient = 0;
 }
 
 void	parsing(t_elem *elem, int fd)
@@ -70,6 +79,12 @@ void	parsing(t_elem *elem, int fd)
 	{
 		parse_line(elem, buff);
 		buff = get_next_line(fd);
+	}
+	if (elem->camera_initialized == false)
+	{
+		free_structures(elem);
+		ft_dprintf(2, FRED"Error\nCamera not initialized."RESET);
+		exit(1);
 	}
 }
 

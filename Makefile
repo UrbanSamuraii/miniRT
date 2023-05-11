@@ -14,6 +14,7 @@ SRCS		+= maths_utils.c
 SRCS		+= mlx_init.c
 SRCS		+= parse_ac.c
 SRCS		+= parse_checks.c
+SRCS		+= parse_conus.c
 SRCS		+= parse_cylinders.c
 SRCS		+= parse_lights.c
 SRCS		+= parse_objects.c
@@ -38,7 +39,7 @@ OBJS		= $(patsubst %.c, $(PATH_OBJS)/%.o, $(SRCS))
 #### OBJ_FLAGS
 OBJ_FLAGS	+= -g # debug flag, remove before push
 OBJ_FLAGS	+= -O3 # debug flag, remove before push
-OBJ_FLAGS	+= -I./libft
+OBJ_FLAGS	+= -I./libft/includes
 OBJ_FLAGS	+= -Imlx_linux
 OBJ_FLAGS	+= -I./includes
 OBJ_FLAGS	+= -I/usr/include

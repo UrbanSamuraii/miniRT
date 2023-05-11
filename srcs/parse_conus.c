@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_planes.c                                     :+:      :+:    :+:   */
+/*   parse_conus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 12:49:10 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 19:04:01 by ankhabar         ###   ########.fr       */
+/*   Created: 2023/05/02 12:49:06 by ankhabar          #+#    #+#             */
+/*   Updated: 2023/05/11 19:00:22 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
 
-
-// radius && height are set to default values
-void	init_plane(t_objects *object, char **params)
+void	init_conus(t_objects *object, char **params)
 {
 	char	**tab;
 
@@ -27,43 +25,47 @@ void	init_plane(t_objects *object, char **params)
 	object->dir = vec3_normalize((t_vec3){ft_atof(tab[0]),
 			ft_atof(tab[1]), ft_atof(tab[2])});
 	free_tab(tab);
-	object->radius = 0;
-	object->height = 0;
-	tab = ft_split(params[3], ',');
+	object->radius = ft_atof(params[3]) / 2;
+	object->height = ft_atof(params[4]);
+	tab = ft_split(params[5], ',');
 	object->colors = colors_to_percent(tab);
 	free_tab(tab);
 }
 
-// adds first node via init_plane_head function or a new node
-static void	add_node_plane(t_elem *elems, char **params)
+// adds first node via init_object_head function or a new node
+static void	add_node_conus(t_elem *elems, char **params)
 {
 	if (elems->objects_head == NULL)
-		init_object_head(elems, params, PLANE);
+		init_object_head(elems, params, CONUS);
 	else
-		new_node_object(elems, params, PLANE);
+		new_node_object(elems, params, CONUS);
 }
 
-// in this function i check every parameter of the line pl
+// in this function i check every parameter of the line co
 // if some parameter outranges or has wrong number of parameters
 // this function will exit with failure status
-bool	plane(t_elem *elems, char **params)
+bool	conus(t_elem *elems, char **params)
 {
 	int	i;
 
-	printf(YELLOW"CHECKING PLANE..."RESET"\n");
-	if (invalid_param_number(4, params))
+	printf(YELLOW"CHECKING CONUS..."RESET"\n");
+	if (invalid_param_number(6, params))
 		return (EXIT_FAILURE);
 	if (not_valid_range(params[1], -DBL_MAX, DBL_MAX))
 		return (EXIT_FAILURE);
 	if (not_valid_range(params[2], -1, 1))
 		return (EXIT_FAILURE);
-	if (not_valid_range(params[3], 0, 255))
+	if (not_valid_parameter(params[3], 0.0001, DBL_MAX))
 		return (EXIT_FAILURE);
-	add_node_plane(elems, params);
+	if (not_valid_parameter(params[4], 0.0001, DBL_MAX))
+		return (EXIT_FAILURE);
+	if (not_valid_range(params[5], 0, 255))
+		return (EXIT_FAILURE);
+	add_node_conus(elems, params);
 	i = 0;
 	while (params[i])
 		printf("[%s] ", params[i++]);
 	printf ("\n");
-	printf(GREEN"PLANE OK!"RESET"\n");
+	printf(GREEN"CONUS OK!"RESET"\n");
 	return (EXIT_SUCCESS);
 }
