@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 14:22:56 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/11 14:29:56 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,20 @@ static void	set_sphere_rec(t_ray r, float t, t_objects sphere, t_hit_rec *rec)
 
 bool	hit_sphere(t_objects sphere, t_ray r, t_vec2 limit, t_hit_rec *rec)
 {
-	float	a;
-	float	half_b;
-	float	c;
+	t_equa	equa;
 	float	root;
 
-	a = vec3_dot(r.direction, r.direction);
-	half_b = vec3_dot(r.origin.xyz - sphere.origin.xyz, r.direction);
-	c = vec3_dot(r.origin.xyz - sphere.origin.xyz, r.origin.xyz
+	equa.a = vec3_dot(r.direction, r.direction);
+	equa.b = vec3_dot(r.origin.xyz - sphere.origin.xyz, r.direction);
+	equa.c = vec3_dot(r.origin.xyz - sphere.origin.xyz, r.origin.xyz
 			- sphere.origin.xyz) - sphere.radius * sphere.radius;
-	if (half_b * half_b - a * c < 0)
+	equa.delta = equa.b * equa.b - equa.a * equa.c;
+	if (equa.delta < 0)
 		return (false);
-	root = (-half_b - sqrt(half_b * half_b - a * c)) / a;
+	root = (-equa.b - sqrt(equa.delta)) / equa.a;
 	if (root < limit.x || limit.y < root)
 	{
-		root = (-half_b + sqrt(half_b * half_b - a * c)) / a;
+		root = (-equa.b + sqrt(equa.delta)) / equa.a;
 		if (root < limit.x || limit.y < root)
 			return (false);
 	}
