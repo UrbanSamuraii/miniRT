@@ -6,13 +6,12 @@
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:20:31 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 19:04:01 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:11:45 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
-
 
 t_vec3	get_ambient_light(t_vec3 obj_color, t_ambient ambient)
 {

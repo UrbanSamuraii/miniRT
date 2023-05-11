@@ -6,13 +6,12 @@
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 14:59:55 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 19:04:01 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:11:51 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
-
 
 t_ray	get_ray(float u, float v, t_data data)
 {

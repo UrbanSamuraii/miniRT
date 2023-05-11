@@ -6,13 +6,12 @@
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 15:02:17 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 19:04:01 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:34:26 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
-
 
 // first node initialization
 static void	init_light_head(t_elem *elems, char **params)
@@ -80,8 +79,6 @@ static void	add_node_light(t_elem *elems, char **params)
 // this function will exit with failure status
 bool	light(t_elem *elems, char **params)
 {
-	int		i;
-
 	printf(YELLOW"CHECKING LIGHT..."RESET"\n");
 	if (invalid_param_number(4, params))
 		return (EXIT_FAILURE);
@@ -92,10 +89,6 @@ bool	light(t_elem *elems, char **params)
 	if (not_valid_range(params[3], 0, 255))
 		return (EXIT_FAILURE);
 	add_node_light(elems, params);
-	i = 0;
-	while (params[i])
-		printf("[%s] ", params[i++]);
-	printf ("\n");
 	printf(GREEN"LIGHT OK!"RESET"\n");
 	return (EXIT_SUCCESS);
 }

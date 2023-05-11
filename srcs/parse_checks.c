@@ -6,13 +6,12 @@
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 17:02:23 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 19:04:01 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:33:52 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
-
 
 bool	invalid_param_number(int code, char **params)
 {
@@ -23,10 +22,7 @@ bool	invalid_param_number(int code, char **params)
 		i++;
 	(void)code;
 	if (i != code)
-	{
-		ft_dprintf(2, FRED"Error\n"ERRPARAM"\n");
-		return (EXIT_FAILURE);
-	}
+		return (ft_dprintf(2, FRED"Error\n"ERRPARAM"\n"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -55,15 +51,9 @@ bool	invalid_chars(char *str)
 bool	not_valid_parameter(char *to_check, float min, float max)
 {
 	if (invalid_chars(to_check))
-	{
-		ft_dprintf(2, FRED"Error\n"ERRCHAR"\n");
-		return (EXIT_FAILURE);
-	}
+		return (ft_dprintf(2, FRED"Error\n"ERRCHAR"\n"), EXIT_FAILURE);
 	if (ft_atof(to_check) < min || ft_atof(to_check) > max)
-	{
-		ft_dprintf(2, FRED"Error\n"ERRRANGE"\n");
-		return (EXIT_FAILURE);
-	}
+		return (ft_dprintf(2, FRED"Error\n"ERRRANGE"\n"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
@@ -80,10 +70,7 @@ bool	not_valid_number_of_commas(char *to_check)
 			count++;
 	}
 	if (count != 2)
-	{
-		ft_dprintf(2, FRED"Error\n"ERRCOMMAS"\n");
-		return (EXIT_FAILURE);
-	}
+		return (ft_dprintf(2, FRED"Error\n"ERRCOMMAS"\n"), EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 

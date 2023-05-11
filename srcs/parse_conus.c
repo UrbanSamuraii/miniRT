@@ -6,7 +6,7 @@
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 12:49:06 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 19:00:22 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:34:07 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,6 @@ static void	add_node_conus(t_elem *elems, char **params)
 // this function will exit with failure status
 bool	conus(t_elem *elems, char **params)
 {
-	int	i;
-
 	printf(YELLOW"CHECKING CONUS..."RESET"\n");
 	if (invalid_param_number(6, params))
 		return (EXIT_FAILURE);
@@ -62,10 +60,6 @@ bool	conus(t_elem *elems, char **params)
 	if (not_valid_range(params[5], 0, 255))
 		return (EXIT_FAILURE);
 	add_node_conus(elems, params);
-	i = 0;
-	while (params[i])
-		printf("[%s] ", params[i++]);
-	printf ("\n");
 	printf(GREEN"CONUS OK!"RESET"\n");
 	return (EXIT_SUCCESS);
 }

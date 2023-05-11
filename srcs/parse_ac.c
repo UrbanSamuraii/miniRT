@@ -6,13 +6,12 @@
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:09:26 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 19:06:22 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 19:31:47 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
-
 
 // in this function i initialize ambient structure if it was not initialized
 // if it was already initialized, i print an error (change to stderr) and exit
@@ -62,8 +61,6 @@ bool	reinit_camera(t_elem *elems, char **params)
 // this function will exit with failure status
 bool	ambient(t_elem *elems, char **params)
 {
-	int		i;
-
 	printf(YELLOW"CHECKING AMBIENT..."RESET"\n");
 	if (invalid_param_number(3, params))
 		return (EXIT_FAILURE);
@@ -73,10 +70,6 @@ bool	ambient(t_elem *elems, char **params)
 		return (EXIT_FAILURE);
 	if (reinit_ambient(elems, params))
 		return (EXIT_FAILURE);
-	i = 0;
-	while (params[i])
-		printf("[%s] ", params[i++]);
-	printf ("\n");
 	printf(GREEN"AMBIENT OK!"RESET"\n");
 	return (EXIT_SUCCESS);
 }
@@ -86,8 +79,6 @@ bool	ambient(t_elem *elems, char **params)
 // this function will exit with failure status
 bool	camera(t_elem *elems, char **params)
 {
-	int		i;
-
 	printf(YELLOW"CHECKING CAMERA..."RESET"\n");
 	if (invalid_param_number(4, params))
 		return (EXIT_FAILURE);
@@ -98,13 +89,9 @@ bool	camera(t_elem *elems, char **params)
 	if (not_valid_parameter(params[3], 0, 180))
 		return (EXIT_FAILURE);
 	if (params[3][0] == '0')
-		return (printf(FRED"fov cannot be null."RESET"\n"), EXIT_FAILURE);
+		return (ft_dprintf(2, FRED"fov cannot be null."RESET"\n"), EXIT_FAILURE);
 	if (reinit_camera(elems, params))
 		return (EXIT_FAILURE);
-	i = 0;
-	while (params[i])
-		printf("[%s] ", params[i++]);
-	printf ("\n");
 	printf(GREEN"CAMERA OK!"RESET"\n");
 	return (EXIT_SUCCESS);
 }

@@ -6,18 +6,14 @@
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 18:00:40 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 19:07:04 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 20:22:59 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PROTO_H
 # define PROTO_H
 
-
 /* PARSING */
-
-//error ------------------------------------------- //
-void	error(char **to_free, t_elem *elems);
 
 //free -------------------------------------------- //
 void	free_tab(char **tab);
@@ -33,6 +29,9 @@ bool	reinit_ambient(t_elem *elems, char **params);
 bool	reinit_camera(t_elem *elems, char **params);
 bool	reinit_light(t_elem *elems, char **params);
 
+//parsing init ------------------------------------ //
+void	parsing(t_elem *elem, int fd);
+
 //parse objects ----------------------------------- //
 void	init_object_head(t_elem *elems, char **params, int type);
 void	new_node_object(t_elem *elems, char **params, int type);
@@ -40,6 +39,10 @@ void	new_node_object(t_elem *elems, char **params, int type);
 //parse cylinders --------------------------------- //
 void	init_cylinder(t_objects *object, char **params);
 bool	cylinder(t_elem *elems, char **params);
+
+//parse conus ------------------------------------- //
+void	init_conus(t_objects *object, char **params);
+bool	conus(t_elem *elems, char **params);
 
 //parse planes ------------------------------------ //
 void	init_plane(t_objects *object, char **params);
@@ -58,7 +61,6 @@ bool	invalid_chars(char *str);
 bool	not_valid_parameter(char *to_check, float min, float max);
 bool	not_valid_number_of_commas(char *to_check);
 bool	not_valid_range(char *to_check, float min, float max);
-
 
 /* MLX INIT */
 void	initialize_data(t_data *data, t_elem elem);
@@ -113,8 +115,5 @@ t_ray	get_ray(float u, float v, t_data data);
 t_ray	get_shadow_ray(t_hit_rec rec, t_light light);
 t_vec3	ray_at(t_ray ray, float t);
 void	set_face_normal(t_ray r, t_vec3 out_normal, t_hit_rec *rec);
-
-
-
 
 #endif

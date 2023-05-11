@@ -6,86 +6,27 @@
 /*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:09 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 19:09:13 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/11 20:20:17 by ankhabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
 
-int	which_type_identifier(char *str)
+static bool	extension_error(char *filename)
 {
-	if (ft_strncmp(str, "A", 2) == 0)
-		return (0);
-	else if (ft_strncmp(str, "C", 2) == 0)
-		return (1);
-	else if (ft_strncmp(str, "L", 2) == 0)
-		return (2);
-	else if (ft_strncmp(str, "sp", 3) == 0)
-		return (3);
-	else if (ft_strncmp(str, "pl", 3) == 0)
-		return (4);
-	else if (ft_strncmp(str, "cy", 3) == 0)
-		return (5);
-	else if (ft_strncmp(str, "co", 3) == 0)
-		return (6);
-	else if (str == NULL)
-		return (7);
-	return (-1);
-}
+	int	i;
 
-void	parse_line(t_elem *elements, char *line)
-{
-	int			id;
-	char		*tmp;
-	char		**words;
-	static bool	(*funcs[6])(t_elem *, char **) = {ambient, camera, light,
-		sphere, plane, cylinder};
-
-	tmp = ft_strtrim(line, '\n');
-	words = ft_split(tmp, ' ');
-	free(tmp);
-	id = which_type_identifier(words[0]);
-	if (id == -1)
+	i = 0;
+	while (filename[i] != '\0')
+		i++;
+	if (i <= 3 || filename[i - 3] != '.'
+		|| filename[i - 2] != 'r' || filename[i - 1] != 't')
 	{
-		ft_dprintf(2, FRED"Error\nInvalid type identifier."RESET"\n");
-		error(words, elements);
-	}
-	if (id != 6 && funcs[id](elements, words) == EXIT_FAILURE)
-		error(words, elements);
-	free_tab(words);
-}
-
-void	elements_init(t_elem *elements)
-{
-	elements->ambient_initialized = false;
-	elements->ambient.colors = (t_vec3){0, 0, 0};
-	elements->ambient.ratio = 0;
-	elements->camera_initialized = false;
-	elements->camera.origin = (t_vec3){0, 0, 0};
-	elements->camera.dir = (t_vec3){0, 0, 0};
-	elements->camera.fov = 0;
-	elements->lights_head = NULL;
-	elements->objects_head = NULL;
-}
-
-void	parsing(t_elem *elem, int fd)
-{
-	char		*buff;
-
-	elements_init(elem);
-	buff = get_next_line(fd);
-	while (buff != NULL)
-	{
-		parse_line(elem, buff);
-		buff = get_next_line(fd);
-	}
-	if (elem->camera_initialized == false)
-	{
-		free_structures(elem);
-		ft_dprintf(2, FRED"Error\nCamera not initialized."RESET);
+		ft_dprintf(2, FRED"Error\nWrong file extension.\n"RESET);
 		exit(1);
 	}
+	return (EXIT_SUCCESS);
 }
 
 int	main(int ac, char *av[])
@@ -94,7 +35,7 @@ int	main(int ac, char *av[])
 	t_data	data;
 	t_elem	elem;
 
-	if (ac == 2)
+	if (ac == 2 && extension_error(av[1]) == EXIT_SUCCESS)
 	{
 		fd = open(av[1], O_RDONLY);
 		if (fd == -1)
@@ -105,6 +46,6 @@ int	main(int ac, char *av[])
 			return (free_structures(&elem), 1);
 	}
 	else
-		printf(BWHITE"Second argument required."RESET"\n");
+		ft_dprintf(2, BWHITE"Second argument required."RESET"\n");
 	return (0);
 }

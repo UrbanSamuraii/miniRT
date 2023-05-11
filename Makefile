@@ -6,7 +6,6 @@ PATH_SRCS	+= srcs/
 
 #### SOURCES
 SRCS		+= display.c
-SRCS		+= error.c
 SRCS		+= free.c
 SRCS		+= hooks.c
 SRCS		+= main.c
@@ -16,6 +15,7 @@ SRCS		+= parse_ac.c
 SRCS		+= parse_checks.c
 SRCS		+= parse_conus.c
 SRCS		+= parse_cylinders.c
+SRCS		+= parse_init.c
 SRCS		+= parse_lights.c
 SRCS		+= parse_objects.c
 SRCS		+= parse_planes.c
@@ -86,11 +86,11 @@ macos: $(MACOS)
 
 $(MACOS): $(OBJS) $(LIBFT) $(INCLUDES)
 	@$(CC) $(OBJS) $(CFLAGS) -L$ (LIBFT_PATH) -lft -Lmlx_macos -lmlx_macos -framework OpenGL -framework AppKit -o $(MACOS)
-	@printf "$(YELLOW)------Compilation executed------\n\n"
+	@echo "$(YELLOW)------Compilation executed------\n"
 
 $(NAME): $(OBJS) $(LIBFT) $(INCLUDES) Makefile
 	@$(CC) $(CFLAGS) $(OBJS) -o $@ -L $(LIBFT_PATH) $(COMP_FLAGS)
-	@printf "$(YELLOW)------Compilation executed------\n"
+	@echo "$(YELLOW)------Compilation executed------"
 	@echo "$(YELLOW)         _      _ ___  ______"
 	@echo "$(YELLOW)  __ _  (_)__  (_) _ \/_  __/"
 	@echo "$(YELLOW) /  ' \/ / _ \/ / , _/ / /   "
@@ -98,7 +98,7 @@ $(NAME): $(OBJS) $(LIBFT) $(INCLUDES) Makefile
 
 $(LIBFT):
 	@$(SMAKE) -sC $(LIBFT_PATH)
-	@printf "$(CYAN)--------libft.a created----------\n\n"
+	@echo "$(CYAN)--------libft.a created----------\n"
 
 # A commenter si on utilise macos
 $(OBJS): $(PATH_OBJS)/%.o: %.c $(INCLUDES)
@@ -113,12 +113,12 @@ $(OBJS): $(PATH_OBJS)/%.o: %.c $(INCLUDES)
 clean:
 	@$(RM) -R $(PATH_OBJS)
 	@$(SMAKE) -sC $(LIBFT_PATH) clean
-	@printf "$(PURPLE)------object files deleted-------\n\n"
+	@echo "$(PURPLE)------object files deleted-------\n"
 
 fclean: clean
 	@$(RM) $(NAME)
 	@$(SMAKE) -sC $(LIBFT_PATH) fclean
-	@printf "$(GREEN)----Executable files deleted-----\n\n"
+	@echo "$(GREEN)----Executable files deleted-----\n"
 
 re: fclean all
 
