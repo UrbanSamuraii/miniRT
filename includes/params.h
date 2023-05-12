@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:54:19 by avast             #+#    #+#             */
-/*   Updated: 2023/05/12 13:06:26 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/12 14:24:10 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@
 # define CYLINDER	3
 # define CONES		4
 
-# define MIN_SHADOW	0.000001
+# define MIN_SHADOW	0.00001
 
 # define BOTTOM		1
 # define TOP		2

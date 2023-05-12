@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maths_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 18:29:27 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 19:12:10 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/12 14:30:01 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,12 @@ float	ft_abs(float a)
 	if (a < 0)
 		return (-a);
 	return (a);
+}
+
+float	pos_val(float a)
+{
+	if (a < 0)
+		return (0);
+	else
+		return (a);
 }

@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/12 13:10:45 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/12 15:25:23 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,6 @@ static float	min_positive(float a, float b, float c)
 		min_pos = c;
 	return (min_pos);
 }
-
-/* static void	set_cone_rec(t_ray r, float roots[3], t_objects co, t_hit_rec *rec)
-{
-	if (rec)
-	{
-		rec->obj_id = co.id;
-		rec->obj_color = co.colors;
-		rec->t = min_positive(roots[0], roots[1], roots[2]);
-		rec->p = ray_at(r, rec->t);
-		if (rec->t == roots[0] || rec->t == roots[1])
-			rec->normal = vec3_normalize(rec->p.xyz - co.origin.xyz);
-		else
-			set_face_normal(r, co.dir, rec);
-	}
-} */
 
 static void	set_cone_rec(t_ray r, float roots[3], t_objects co, t_hit_rec *rec)
 {

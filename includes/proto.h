@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 18:00:40 by avast             #+#    #+#             */
-/*   Updated: 2023/05/12 13:06:48 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/12 14:30:27 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,9 @@ bool	hit_cylinder(t_objects cylinder, t_ray r, t_vec2 limit, t_hit_rec *rec);
 bool	hit_cone(t_objects cone, t_ray r, t_vec2 limit, t_hit_rec *rec);
 
 /* MATHS UTILS */
-float	cal_cos(int a);
-float	cal_sin(int a);
 float	deg_to_rad(float a);
 float	ft_abs(float a);
-int		ft_sign(int a);
+float	pos_val(float a);
 
 /* VEC3 UTILS*/
 t_vec3	vec3_cross(t_vec3 a, t_vec3 b);

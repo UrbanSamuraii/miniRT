@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:13:35 by avast             #+#    #+#             */
-/*   Updated: 2023/05/12 13:25:16 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/12 14:31:36 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,10 @@ t_vec3	update_color_shadow(t_hit_rec rec, t_elem elem)
 	color = (t_vec3){0, 0, 0};
 	while (light)
 	{
-		if (light->origin.x == rec.p.x && light->origin.y == rec.p.y && light->origin.z == rec.p.z)
-			light->origin.x += 1;
 		shadow_ray = get_shadow_ray(rec, *light);
 		if (!hit_anything(shadow_ray, elem, NULL, (t_vec3){MIN_SHADOW,
-				vec3_distance(rec.p, light->origin), (float)rec.obj_id}))
+				pos_val(vec3_distance(rec.p, light->origin)
+					- MIN_SHADOW), (float)rec.obj_id}))
 		{
 			color.xyz += get_direct_light(rec, *light);
 			color.xyz += get_spec_light(elem.camera, rec, *light);
