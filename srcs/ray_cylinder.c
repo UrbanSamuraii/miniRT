@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cylinder.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 19:11:43 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:54:40 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,10 @@ static float	min_positive(float a, float b, float c, float d)
 
 static void	set_cyl_rec(t_ray r, float roots[4], t_objects cyl, t_hit_rec *rec)
 {
+	t_vec3	projection;
+	t_vec3	closest;
+	t_vec3	dot;
+
 	if (rec)
 	{
 		rec->obj_id = cyl.id;
@@ -89,8 +93,14 @@ static void	set_cyl_rec(t_ray r, float roots[4], t_objects cyl, t_hit_rec *rec)
 		rec->t = min_positive(roots[0], roots[1], roots[2], roots[3]);
 		rec->p = ray_at(r, rec->t);
 		if (rec->t == roots[0] || rec->t == roots[1])
-			rec->normal = vec3_normalize((t_vec3){rec->p.x - cyl.origin.x,
-					rec->p.y - cyl.origin.y, rec->p.z - cyl.origin.z});
+		{
+			projection = vec3_dot(rec->p.xyz - cyl.origin.xyz, cyl.dir) * cyl.dir.xyz;
+/* 			rec->normal = vec3_normalize((t_vec3){rec->p.x - cyl.origin.x,
+					rec->p.y - cyl.origin.y, rec->p.z - cyl.origin.z}); */
+ 			closest = projection.xyz + cyl.origin.xyz;
+			dot = vec3_dot(rec->p.xyz - closest.xyx, cyl.dir) * cyl.dir.xyz;
+			rec->normal = vec3_normalize(rec->p.xyz - closest.xyz - dot.xyz);
+		}
 		else
 			set_face_normal(r, cyl.dir, rec);
 	}
