@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ray_cone.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 19:11:42 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/12 11:54:46 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
 
-static void	solve_cone_equa(t_objects cone, t_ray r, float *root1, float *root2)
+static void	solve_cone_equa(t_objects co, t_ray r, float *r1, float *r2)
 {
 	float	w;
 	t_vec3	va;
@@ -21,22 +21,25 @@ static void	solve_cone_equa(t_objects cone, t_ray r, float *root1, float *root2)
 	float	vs;
 	t_equa	equa;
 
-	w = cone.height - vec3_dot(r.origin.xyz - cone.origin.xyz, cone.dir);
-	ra0 = vec3_cross(vec3_cross(cone.dir, r.origin.xyz - cone.origin.xyz), cone.dir);
-	va = vec3_cross(vec3_cross(cone.dir, r.direction), cone.dir);
-	vs = vec3_dot(r.direction, cone.dir);
-	equa.a = vec3_dot(va, va) - powf(vs, 2) * ((cone.radius * cone.radius) / (cone.height * cone.height));
-	equa.b = 2 * vec3_dot(ra0, va) + 2 * w * vs * ((cone.radius * cone.radius) / (cone.height * cone.height));
-	equa.c = vec3_dot(ra0, ra0) - w * w * ((cone.radius * cone.radius) / (cone.height * cone.height));
+	w = co.height - vec3_dot(r.origin.xyz - co.origin.xyz, co.dir);
+	ra0 = vec3_cross(vec3_cross(co.dir, r.origin.xyz - co.origin.xyz), co.dir);
+	va = vec3_cross(vec3_cross(co.dir, r.direction), co.dir);
+	vs = vec3_dot(r.direction, co.dir);
+	equa.a = vec3_dot(va, va) - powf(vs, 2) * (powf(co.radius, 2)
+			/ powf(co.height, 2));
+	equa.b = 2 * vec3_dot(ra0, va) + 2 * w * vs * (powf(co.radius, 2)
+			/ powf(co.height, 2));
+	equa.c = vec3_dot(ra0, ra0) - w * w * (powf(co.radius, 2)
+			/ powf(co.height, 2));
 	equa.delta = equa.b * equa.b - 4 * equa.a * equa.c;
 	if (equa.delta < 0)
 	{
-		*root1 = -1;
-		*root2 = -1;
+		*r1 = -1;
+		*r2 = -1;
 		return ;
 	}
-	*root1 = (-equa.b - sqrtf(equa.delta)) / (2 * equa.a);
-	*root2 = (-equa.b + sqrtf(equa.delta)) / (2 * equa.a);
+	*r1 = (-equa.b - sqrtf(equa.delta)) / (2 * equa.a);
+	*r2 = (-equa.b + sqrtf(equa.delta)) / (2 * equa.a);
 }
 
 static float	hit_cone_cap(t_objects cone, t_ray r, t_vec2 limit)
@@ -51,7 +54,8 @@ static float	hit_cone_cap(t_objects cone, t_ray r, t_vec2 limit)
 		/ vec3_dot(normal, r.direction);
 	if (root == 0 || root < limit.x || limit.y < root)
 		return (-1);
-	if (vec3_dot(ray_at(r, root).xyz - cone.origin.xyz, ray_at(r, root).xyz - cone.origin.xyz)
+	if (vec3_dot(ray_at(r, root).xyz - cone.origin.xyz,
+			ray_at(r, root).xyz - cone.origin.xyz)
 		<= cone.radius * cone.radius)
 		return (root);
 	else
@@ -72,19 +76,18 @@ static float	min_positive(float a, float b, float c)
 	return (min_pos);
 }
 
-static void	set_cone_rec(t_ray r, float roots[3], t_objects cone, t_hit_rec *rec)
+static void	set_cone_rec(t_ray r, float roots[3], t_objects co, t_hit_rec *rec)
 {
 	if (rec)
 	{
-		rec->obj_id = cone.id;
-		rec->obj_color = cone.colors;
+		rec->obj_id = co.id;
+		rec->obj_color = co.colors;
 		rec->t = min_positive(roots[0], roots[1], roots[2]);
 		rec->p = ray_at(r, rec->t);
 		if (rec->t == roots[0] || rec->t == roots[1])
-			rec->normal = vec3_normalize((t_vec3){rec->p.x - cone.origin.x,
-					rec->p.y - cone.origin.y, rec->p.z - cone.origin.z});
+			rec->normal = vec3_normalize(rec->p.xyz - co.origin.xyz);
 		else
-			set_face_normal(r, cone.dir, rec);
+			set_face_normal(r, co.dir, rec);
 	}
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ray_lights.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:20:31 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 19:11:45 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/12 11:44:26 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_vec3	get_spec_light(t_camera cam, t_hit_rec rec, t_light light)
 	if (dot < 0)
 		color.xyz = 0;
 	else
-		color.xyz = light.ratio * powf(dot, 23)
+		color.xyz = light.ratio * powf(dot, 40)
 			* (rec.obj_color.xyz + ((1 - 0.5) * rec.obj_color.xyz + 0.5));
 	return (color);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raytracing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:13:35 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 19:11:53 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:05:55 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,38 +29,38 @@ static int	get_color(t_vec3 color)
 	return (new_color);
 }
 
-static void	save_rec(float *closest, t_hit_rec tmp, t_hit_rec *rec, bool *hit)
+static void	save_rec(t_vec3	*limit, t_hit_rec tmp, t_hit_rec *rec, bool *hit)
 {
 	*hit = true;
 	if (rec)
 	{
-		*closest = tmp.t;
+		limit->y = tmp.t;
 		*rec = tmp;
 	}
 }
 
 bool	hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, t_vec3 limit)
 {
-	float		closest;
 	bool		hit_anything;
 	t_hit_rec	tmp_rec;
 	t_objects	*obj;
 
-	closest = limit.y;
 	hit_anything = false;
 	obj = elem.objects_head;
 	while (obj)
 	{
 		if (obj->id != (int)limit.z && obj->type == SPHERE
-			&& hit_sphere(*obj, r, (t_vec2){limit.x, closest}, &tmp_rec))
-			save_rec(&closest, tmp_rec, rec, &hit_anything);
+			&& hit_sphere(*obj, r, (t_vec2){limit.x, limit.y}, &tmp_rec))
+			save_rec(&limit, tmp_rec, rec, &hit_anything);
 		if (obj->id != (int)limit.z && obj->type == PLANE
-			&& hit_plane(*obj, r, (t_vec2){limit.x, closest}, &tmp_rec))
-			save_rec(&closest, tmp_rec, rec, &hit_anything);
+			&& hit_plane(*obj, r, (t_vec2){limit.x, limit.y}, &tmp_rec))
+			save_rec(&limit, tmp_rec, rec, &hit_anything);
 		if (obj->id != (int)limit.z && obj->type == CYLINDER
-			&& hit_cylinder(*obj, r, (t_vec2){limit.x, closest}, &tmp_rec))
-			save_rec(&closest, tmp_rec, rec, &hit_anything);
-		// ajouter la ligne cylindre
+			&& hit_cylinder(*obj, r, (t_vec2){limit.x, limit.y}, &tmp_rec))
+			save_rec(&limit, tmp_rec, rec, &hit_anything);
+		if (obj->id != (int)limit.z && obj->type == CONUS
+			&& hit_cone(*obj, r, (t_vec2){limit.x, limit.y}, &tmp_rec))
+			save_rec(&limit, tmp_rec, rec, &hit_anything);
 		if (limit.z >= 0 && hit_anything)
 			break ;
 		obj = obj->next;
