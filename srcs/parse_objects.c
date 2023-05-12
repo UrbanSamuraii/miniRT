@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 17:48:31 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/12 10:36:42 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/12 13:06:48 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	init_object_head(t_elem *elems, char **params, int type)
 		init_plane(elems->objects_head, params);
 	else if (type == CYLINDER)
 		init_cylinder(elems->objects_head, params);
-	else if (type == CONUS)
-		init_conus(elems->objects_head, params);
+	else if (type == CONES)
+		init_cones(elems->objects_head, params);
 	elems->objects_head->id = 0;
 	elems->objects_head->type = type;
 	elems->objects_head->next = NULL;
@@ -61,8 +61,8 @@ void	new_node_object(t_elem *elems, char **params, int type)
 		init_plane(new_node, params);
 	else if (type == CYLINDER)
 		init_cylinder(new_node, params);
-	else if (type == CONUS)
-		init_conus(new_node, params);
+	else if (type == CONES)
+		init_cones(new_node, params);
 	new_node->type = type;
 	new_node->next = NULL;
 	plst = elems->objects_head;

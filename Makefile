@@ -13,7 +13,7 @@ SRCS		+= maths_utils.c
 SRCS		+= mlx_init.c
 SRCS		+= parse_ac.c
 SRCS		+= parse_checks.c
-SRCS		+= parse_conus.c
+SRCS		+= parse_cones.c
 SRCS		+= parse_cylinders.c
 SRCS		+= parse_init.c
 SRCS		+= parse_lights.c
@@ -21,11 +21,11 @@ SRCS		+= parse_objects.c
 SRCS		+= parse_planes.c
 SRCS		+= parse_spheres.c
 SRCS		+= parse_utils.c
-SRCS		+= ray_cone.c
-SRCS		+= ray_cylinder.c
+SRCS		+= ray_cones.c
+SRCS		+= ray_cylinders.c
 SRCS		+= ray_lights.c
-SRCS		+= ray_plane.c
-SRCS		+= ray_sphere.c
+SRCS		+= ray_planes.c
+SRCS		+= ray_spheres.c
 SRCS		+= ray_utils.c
 SRCS		+= raytracing.c
 SRCS		+= vec3_utils.c
@@ -37,8 +37,6 @@ PATH_OBJS	= objs/
 OBJS		= $(patsubst %.c, $(PATH_OBJS)/%.o, $(SRCS))
 
 #### OBJ_FLAGS
-OBJ_FLAGS	+= -g # debug flag, remove before push
-OBJ_FLAGS	+= -O3 # debug flag, remove before push
 OBJ_FLAGS	+= -I./libft/includes
 OBJ_FLAGS	+= -Imlx_linux
 OBJ_FLAGS	+= -I./includes
@@ -56,7 +54,6 @@ CFLAGS		+= -mavx
 SMAKE		= make --no-print-directory
 
 #### COMP_FLAGS
-COMP_FLAGS	+= -g # debug flag, remove before push
 COMP_FLAGS	+= -Imlx_linux
 COMP_FLAGS	+= -Lmlx_linux
 COMP_FLAGS	+= -L/usr/lib
@@ -82,12 +79,6 @@ CYAN		= \033[1;96m
 #### RULES
 all: $(NAME)
 
-macos: $(MACOS)
-
-$(MACOS): $(OBJS) $(LIBFT) $(INCLUDES)
-	@$(CC) $(OBJS) $(CFLAGS) -L$ (LIBFT_PATH) -lft -Lmlx_macos -lmlx_macos -framework OpenGL -framework AppKit -o $(MACOS)
-	@echo "$(YELLOW)------Compilation executed------\n"
-
 $(NAME): $(OBJS) $(LIBFT) $(INCLUDES) Makefile
 	@$(CC) $(CFLAGS) $(OBJS) -o $@ -L $(LIBFT_PATH) $(COMP_FLAGS)
 	@echo "$(YELLOW)------Compilation executed------"
@@ -100,15 +91,9 @@ $(LIBFT):
 	@$(SMAKE) -sC $(LIBFT_PATH)
 	@echo "$(CYAN)--------libft.a created----------\n"
 
-# A commenter si on utilise macos
 $(OBJS): $(PATH_OBJS)/%.o: %.c $(INCLUDES)
 	@mkdir -p $(PATH_OBJS)
 	@$(CC) $(CFLAGS) -c $< -o $@ $(OBJ_FLAGS)
-
-# A decommenter si on ulitise macos
-# $(OBJS): $(PATH_OBJS)/%.o: %.c $(INCLUDES)
-# 	@mkdir -p $(PATH_OBJS)
-# 	@$(CC) $(CFLAGS) -Imlx_macos -I./libft -I/opt/X11/include -c $< -o $@
 
 clean:
 	@$(RM) -R $(PATH_OBJS)
@@ -122,6 +107,4 @@ fclean: clean
 
 re: fclean all
 
-ra: fclean macos
-
-.PHONY: all clean fclean re ra
+.PHONY: all clean fclean re

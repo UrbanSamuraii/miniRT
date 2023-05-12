@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 12:28:09 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 19:49:44 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:06:12 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	parse_line(t_elem *elements, char *line)
 	char		*tmp;
 	char		**words;
 	static bool	(*funcs[7])(t_elem *, char **) = {ambient, camera, light,
-		sphere, plane, cylinder, conus};
+		sphere, plane, cylinder, cones};
 
 	tmp = ft_strtrim(line, '\n');
 	words = ft_split(tmp, ' ');

@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 11:13:35 by avast             #+#    #+#             */
-/*   Updated: 2023/05/12 12:05:55 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/12 13:25:16 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ bool	hit_anything(t_ray r, t_elem elem, t_hit_rec *rec, t_vec3 limit)
 		if (obj->id != (int)limit.z && obj->type == CYLINDER
 			&& hit_cylinder(*obj, r, (t_vec2){limit.x, limit.y}, &tmp_rec))
 			save_rec(&limit, tmp_rec, rec, &hit_anything);
-		if (obj->id != (int)limit.z && obj->type == CONUS
+		if (obj->id != (int)limit.z && obj->type == CONES
 			&& hit_cone(*obj, r, (t_vec2){limit.x, limit.y}, &tmp_rec))
 			save_rec(&limit, tmp_rec, rec, &hit_anything);
 		if (limit.z >= 0 && hit_anything)
@@ -78,6 +78,8 @@ t_vec3	update_color_shadow(t_hit_rec rec, t_elem elem)
 	color = (t_vec3){0, 0, 0};
 	while (light)
 	{
+		if (light->origin.x == rec.p.x && light->origin.y == rec.p.y && light->origin.z == rec.p.z)
+			light->origin.x += 1;
 		shadow_ray = get_shadow_ray(rec, *light);
 		if (!hit_anything(shadow_ray, elem, NULL, (t_vec3){MIN_SHADOW,
 				vec3_distance(rec.p, light->origin), (float)rec.obj_id}))

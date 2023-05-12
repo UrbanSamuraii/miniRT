@@ -6,7 +6,7 @@
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/12 12:54:40 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/12 13:01:49 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,9 @@ static void	set_cyl_rec(t_ray r, float roots[4], t_objects cyl, t_hit_rec *rec)
 		rec->p = ray_at(r, rec->t);
 		if (rec->t == roots[0] || rec->t == roots[1])
 		{
-			projection = vec3_dot(rec->p.xyz - cyl.origin.xyz, cyl.dir) * cyl.dir.xyz;
-/* 			rec->normal = vec3_normalize((t_vec3){rec->p.x - cyl.origin.x,
-					rec->p.y - cyl.origin.y, rec->p.z - cyl.origin.z}); */
- 			closest = projection.xyz + cyl.origin.xyz;
+			projection = vec3_dot(rec->p.xyz - cyl.origin.xyz, cyl.dir)
+				* cyl.dir.xyz;
+			closest = projection.xyz + cyl.origin.xyz;
 			dot = vec3_dot(rec->p.xyz - closest.xyx, cyl.dir) * cyl.dir.xyz;
 			rec->normal = vec3_normalize(rec->p.xyz - closest.xyz - dot.xyz);
 		}

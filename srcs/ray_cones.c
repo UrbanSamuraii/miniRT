@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_cone.c                                         :+:      :+:    :+:   */
+/*   ray_cones.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 10:54:22 by avast             #+#    #+#             */
-/*   Updated: 2023/05/12 11:54:46 by avast            ###   ########.fr       */
+/*   Updated: 2023/05/12 13:10:45 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static float	min_positive(float a, float b, float c)
 	return (min_pos);
 }
 
-static void	set_cone_rec(t_ray r, float roots[3], t_objects co, t_hit_rec *rec)
+/* static void	set_cone_rec(t_ray r, float roots[3], t_objects co, t_hit_rec *rec)
 {
 	if (rec)
 	{
@@ -86,6 +86,31 @@ static void	set_cone_rec(t_ray r, float roots[3], t_objects co, t_hit_rec *rec)
 		rec->p = ray_at(r, rec->t);
 		if (rec->t == roots[0] || rec->t == roots[1])
 			rec->normal = vec3_normalize(rec->p.xyz - co.origin.xyz);
+		else
+			set_face_normal(r, co.dir, rec);
+	}
+} */
+
+static void	set_cone_rec(t_ray r, float roots[3], t_objects co, t_hit_rec *rec)
+{
+	t_vec3	projection;
+	t_vec3	closest;
+	t_vec3	dot;
+
+	if (rec)
+	{
+		rec->obj_id = co.id;
+		rec->obj_color = co.colors;
+		rec->t = min_positive(roots[0], roots[1], roots[2]);
+		rec->p = ray_at(r, rec->t);
+		if (rec->t == roots[0] || rec->t == roots[1])
+		{
+			projection = vec3_dot(rec->p.xyz - co.origin.xyz, co.dir)
+				* co.dir.xyz;
+			closest = projection.xyz + co.origin.xyz;
+			dot = vec3_dot(rec->p.xyz - closest.xyx, co.dir) * co.dir.xyz;
+			rec->normal = vec3_normalize(rec->p.xyz - closest.xyz - dot.xyz);
+		}
 		else
 			set_face_normal(r, co.dir, rec);
 	}

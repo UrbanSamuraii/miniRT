@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   proto.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 18:00:40 by avast             #+#    #+#             */
-/*   Updated: 2023/05/11 20:22:59 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:06:48 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	new_node_object(t_elem *elems, char **params, int type);
 void	init_cylinder(t_objects *object, char **params);
 bool	cylinder(t_elem *elems, char **params);
 
-//parse conus ------------------------------------- //
-void	init_conus(t_objects *object, char **params);
-bool	conus(t_elem *elems, char **params);
+//parse cones ------------------------------------- //
+void	init_cones(t_objects *object, char **params);
+bool	cones(t_elem *elems, char **params);
 
 //parse planes ------------------------------------ //
 void	init_plane(t_objects *object, char **params);

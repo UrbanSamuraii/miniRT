@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parse_conus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ankhabar <ankhabar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: avast <avast@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 12:49:06 by ankhabar          #+#    #+#             */
-/*   Updated: 2023/05/11 19:34:07 by ankhabar         ###   ########.fr       */
+/*   Updated: 2023/05/12 13:06:48 by avast            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "params.h"
 #include "proto.h"
 
-void	init_conus(t_objects *object, char **params)
+void	init_cones(t_objects *object, char **params)
 {
 	char	**tab;
 
@@ -33,20 +33,20 @@ void	init_conus(t_objects *object, char **params)
 }
 
 // adds first node via init_object_head function or a new node
-static void	add_node_conus(t_elem *elems, char **params)
+static void	add_node_cones(t_elem *elems, char **params)
 {
 	if (elems->objects_head == NULL)
-		init_object_head(elems, params, CONUS);
+		init_object_head(elems, params, CONES);
 	else
-		new_node_object(elems, params, CONUS);
+		new_node_object(elems, params, CONES);
 }
 
 // in this function i check every parameter of the line co
 // if some parameter outranges or has wrong number of parameters
 // this function will exit with failure status
-bool	conus(t_elem *elems, char **params)
+bool	cones(t_elem *elems, char **params)
 {
-	printf(YELLOW"CHECKING CONUS..."RESET"\n");
+	printf(YELLOW"CHECKING CONES..."RESET"\n");
 	if (invalid_param_number(6, params))
 		return (EXIT_FAILURE);
 	if (not_valid_range(params[1], -DBL_MAX, DBL_MAX))
@@ -59,7 +59,7 @@ bool	conus(t_elem *elems, char **params)
 		return (EXIT_FAILURE);
 	if (not_valid_range(params[5], 0, 255))
 		return (EXIT_FAILURE);
-	add_node_conus(elems, params);
-	printf(GREEN"CONUS OK!"RESET"\n");
+	add_node_cones(elems, params);
+	printf(GREEN"CONES OK!"RESET"\n");
 	return (EXIT_SUCCESS);
 }
